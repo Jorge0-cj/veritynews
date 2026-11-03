@@ -1,0 +1,3 @@
+backend/data/faces.json
+backend/models/*.onnx
+__pycache__/

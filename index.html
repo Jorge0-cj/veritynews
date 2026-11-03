@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VerityNews - Noticias Verificadas por IA & IoT</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- ==================== HEADER GLOBAL ==================== -->
+  <header>
+    <div class="brand-wrap">
+      <div class="logo" id="headerLogo">
+        🛡️ Verity<span>News</span>
+      </div>
+      <div class="logo-badge">MVC IA & IoT</div>
+    </div>
+
+    <nav class="main-nav" id="mainNav">
+      <!-- Inyectado por el Controller según rol -->
+    </nav>
+
+    <div class="user-actions">
+      <div class="notif-wrap">
+        <button type="button" class="notif-bell" id="btnNotifications" title="Notificaciones" aria-label="Notificaciones" aria-haspopup="true" aria-expanded="false">
+          🔔
+          <span class="notif-count" id="notifBadge">0</span>
+        </button>
+        <div class="notif-panel hidden" id="notifPanel" role="dialog" aria-label="Panel de notificaciones"></div>
+      </div>
+
+      <div class="user-pill" id="userPill" title="Mi cuenta">
+        <div class="user-avatar" id="userAvatarChar">U</div>
+        <div class="user-info-text">
+          <div class="user-info-name" id="userNameLabel">Cargando...</div>
+          <div class="user-info-role" id="userRoleLabel">usuario</div>
+        </div>
+      </div>
+
+      <button class="btn-logout" id="btnLogout">Cerrar Sesión</button>
+    </div>
+  </header>
+
+  <!-- ==================== VISTA PRINCIPAL (CONTENEDOR DINÁMICO) ==================== -->
+  <main class="container" id="appView">
+    <!-- El Controller inyecta aquí la vista solicitada -->
+  </main>
+
+  <!-- ==================== MODAL DE AUTENTICACIÓN / REGISTRO ==================== -->
+  <div id="authModal" class="hidden">
+    <div class="auth-card">
+      <div style="display:flex;align-items:center;gap:.6rem;margin-bottom:0.5rem;">
+        <span style="font-size:1.8rem;">🛡️</span>
+        <h2>Verity<b>News</b></h2>
+      </div>
+      <p class="subtitle">Plataforma de periodismo certificado con IA e IoT</p>
+
+      <div class="auth-tabs">
+        <button class="auth-tab-btn active" id="tabLoginBtn" type="button">Iniciar Sesión</button>
+        <button class="auth-tab-btn" id="tabRegisterBtn" type="button">Registrar Usuario</button>
+      </div>
+
+      <!-- Formulario Login no mover alv porfa -->
+      <form id="formLogin">
+        <div class="form-group">
+          <label>Correo Electrónico</label>
+          <input type="email" class="form-input" id="loginEmail" placeholder="ejemplo@veritynews.mx" required>
+        </div>
+        <div class="form-group">
+          <label>Contraseña</label>
+          <input type="password" class="form-input" id="loginPass" placeholder="••••••••" required>
+        </div>
+        <button type="submit" class="btn-submit">
+          <span>Ingresar a la Plataforma</span> →
+        </button>
+      </form>
+
+      <!-- Formulario Registro -->
+      <form id="formRegister" class="hidden">
+        <div class="form-group">
+          <label>Nombre Completo</label>
+          <input type="text" class="form-input" id="regName" placeholder="Tu nombre" required>
+        </div>
+        <div class="form-group">
+          <label>Correo Electrónico</label>
+          <input type="email" class="form-input" id="regEmail" placeholder="nuevo@correo.com" required>
+        </div>
+        <div class="form-group">
+          <label>Contraseña</label>
+          <input type="password" class="form-input" id="regPass" placeholder="Crea una contraseña segura" required>
+        </div>
+        <div class="form-group">
+          <label>Rol de Cuenta</label>
+          <select class="form-select" id="regRole">
+            <option value="usuario">Usuario General (Lector verificado)</option>
+            <option value="periodista">Periodista (Redactor e Investigador)</option>
+          </select>
+        </div>
+        <button type="submit" class="btn-submit" style="background:var(--ok);">
+          <span>Crear Cuenta y Entrar</span> ✨
+        </button>
+      </form>
+
+      <div id="authAlert" class="auth-alert hidden"></div>
+
+      <!-- Cuentas demo -->
+      <div class="demo-selector">
+        <div class="demo-selector-title">⚡ Cuentas de demostración rápida:</div>
+        <div class="demo-pills">
+          <button type="button" class="demo-pill-btn" data-demo="usuario">
+            <div><strong>Lector:</strong> usuario@veritynews.mx</div>
+            <span>usuario123</span>
+          </button>
+          <button type="button" class="demo-pill-btn" data-demo="periodista">
+            <div><strong>Periodista:</strong> periodista@veritynews.mx</div>
+            <span>periodista123</span>
+          </button>
+          <button type="button" class="demo-pill-btn" data-demo="admin">
+            <div><strong>Administrador:</strong> admin@veritynews.mx</div>
+            <span>admin123</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL DE LECTURA COMPLETA ==================== -->
+  <div id="articleModal" class="article-modal-backdrop hidden">
+    <div class="article-modal">
+      <button class="article-modal-close" id="btnCloseArticleModal">✕</button>
+      <div class="article-modal-hero" id="modalHeroImgWrap"></div>
+      <div class="article-modal-content" id="modalContentBody"></div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL DE ESCANEO FACIAL ==================== -->
+  <div id="faceModal" class="face-modal-backdrop hidden"></div>
+
+  <!-- ==================== DIÁLOGO DE CONFIRMACIÓN ==================== -->
+  <div id="dialogModal" class="dialog-backdrop hidden" role="dialog" aria-modal="true" aria-labelledby="dialogTitle">
+    <div class="dialog">
+      <div class="dialog-icon" id="dialogIcon">ℹ️</div>
+      <h3 id="dialogTitle"></h3>
+      <p id="dialogText"></p>
+      <div class="dialog-actions">
+        <button type="button" class="btn-ui btn-ui-outline" id="dialogBack">Volver</button>
+        <button type="button" class="btn-ui btn-ui-primary" id="dialogConfirm">Confirmar</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Contenedor de alertas Toast -->
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  <!-- ==================== SCRIPTS MVC (el orden importa) ==================== -->
+  <script src="js/services/CameraService.js"></script>
+  <script src="js/services/FaceService.js"></script>
+  <script src="js/models/Model.js"></script>
+  <script src="js/views/Views.js"></script>
+  <script src="js/controllers/Controller.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
